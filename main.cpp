@@ -1,8 +1,13 @@
-#include <QCoreApplication>
+#include <QApplication>
+#include <QtWidgets>
+#include "window.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    return a.exec();
+    Window main_window;
+    main_window.show();
+
+    return app.exec();
 }
