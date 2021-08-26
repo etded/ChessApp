@@ -10,6 +10,8 @@ CONFIG -= app_bundle
 
 SOURCES += \
         main.cpp \
+        qboard.cpp \
+        qhistory.cpp \
         window.cpp
 
 # Default rules for deployment.
@@ -18,4 +20,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    qboard.h \
+    qhistory.h \
     window.h

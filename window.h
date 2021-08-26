@@ -1,25 +1,23 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <QApplication>
 #include <QWidget>
+#include <QtWidgets>
+#include "qhistory.h"
+#include "qboard.h"
 
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <ctime>
-
-using namespace std;
 
 class Window : public QWidget
 {
     Q_OBJECT
     public:
-        Window(QWidget *parent = nullptr);
+        Window();
 
     protected:
 
     private:
+        QHistory *history;
+        QBoard *chess_board;
 
     public slots:
 
