@@ -3,18 +3,40 @@
 
 
 
-QHistory::QHistory() : QWidget()
+QHistory::QHistory() : QTableWidget()
 {
-    QVBoxLayout *vboxLayout = new QVBoxLayout(this);
+    setHistoryPolicy();
+    setHistorySize();
 
-    QTableWidget *historyTable = new QTableWidget(this);
-    QStringList headerLabels = {"Turn number", "White move", "Black move", "Turn Time"};
-    historyTable->setVerticalHeaderLabels(headerLabels);
-    historyTable->setColumnCount(4);
-    historyTable->setRowCount(10);
+    QStringList headerLabels = {"White move", "Black move", "Turn Time"};
+    this->setHorizontalHeaderLabels(headerLabels);
+}
 
-    vboxLayout->addWidget(historyTable);
-    vboxLayout->addStretch();
+void QHistory::setHistoryPolicy()
+{
+    this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->setFocusPolicy(Qt::NoFocus);
+    this->setSelectionMode(QAbstractItemView::NoSelection);
+    this->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    this->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+}
 
-    this->setLayout(vboxLayout);
+void QHistory::setHistorySize()
+{
+    this->setColumnCount(this->nbColumns);
+    this->setRowCount(this->nbRows);
+    int i;
+    for (i = 0; i < this->nbRows; i++)
+    {
+        this->setRowHeight(i, this->rowHeight);
+    }
+    for (i = 0; i < nbColumns; i++)
+    {
+        this->setColumnWidth(i, this->columnWidth);
+    }
+    this->verticalHeader()->setFixedWidth(this->columnWidth);
+    this->horizontalHeader()->setFixedHeight(this->rowHeight);
+    this->setFixedSize(this->nbColumns*this->columnWidth+2*this->frameWidth()+this->columnWidth, this->nbRows*this->rowHeight+2*this->frameWidth()+this->rowHeight);
 }

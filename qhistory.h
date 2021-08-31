@@ -4,16 +4,25 @@
 #include <QWidget>
 #include <QtWidgets>
 
-class QHistory : public QWidget
+#include <iostream>
+
+using namespace std;
+
+class QHistory : public QTableWidget
 {
     Q_OBJECT
 
     public:
         QHistory();
+        void setHistoryPolicy();
+        void setHistorySize();
 
     private:
-        QTableWidget *historyTable;
         QStringList headerLabels;
+        int nbRows = 10;
+        int nbColumns = 3;
+        int rowHeight = 30;
+        int columnWidth = 75;
 };
 
 #endif // QHISTORY_H

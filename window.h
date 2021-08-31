@@ -4,7 +4,8 @@
 #include <QWidget>
 #include <QtWidgets>
 #include "qhistory.h"
-#include "qboard.h"
+#include "qchessboard.h"
+#include "qchesstimer.h"
 
 
 class Window : public QWidget
@@ -17,7 +18,11 @@ class Window : public QWidget
 
     private:
         QHistory *history;
-        QBoard *chess_board;
+        QChessBoard *chessBoard;
+        QChessTimer *chessTimer;
+        QWidget *leftPanel;
+        QWidget *rightPanel;
+        QTimer *LCDNumber;
 
     public slots:
 

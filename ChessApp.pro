@@ -10,7 +10,8 @@ CONFIG -= app_bundle
 
 SOURCES += \
         main.cpp \
-        qboard.cpp \
+        qchessboard.cpp \
+        qchesstimer.cpp \
         qhistory.cpp \
         window.cpp
 
@@ -20,6 +21,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    qboard.h \
+    qchessboard.h \
+    qchesstimer.h \
     qhistory.h \
     window.h
