@@ -14,18 +14,22 @@ class QChessBoard : public QTableWidget
     Q_OBJECT
 
     public:
-        QChessBoard();
-        void setChessBoardBackground();
+        explicit QChessBoard(QWidget *parent = nullptr);
+        void openColorDialog();
+        void initializeBoardCells();
+        void setChessBoardColor(QColor);
         void setChessBoardPolicy();
         void setChessBoardSize();
         void setChessBoardNotation();
+        void setChessBoardPieces();
+
 
     private:
-        int nbRows = 10;
-        int nbColumns = 10;
-        int rowHeight = 50;
-        int columnWidth = 50;
-        QColor coloredColor = Qt::black;
+        int nbRows;
+        int nbColumns;
+        int rowHeight;
+        int columnWidth;
+        QColor coloredColor;
         QColor playerColor = Qt::white;
 };
 

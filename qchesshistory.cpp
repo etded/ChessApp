@@ -1,18 +1,18 @@
-#include "qhistory.h"
+#include "qchesshistory.h"
 
 
 
 
-QHistory::QHistory() : QTableWidget()
+QChessHistory::QChessHistory(QWidget *parent) : QTableWidget(parent)
 {
-    setHistoryPolicy();
-    setHistorySize();
+    setChessHistoryPolicy();
+    setChessHistorySize();
 
     QStringList headerLabels = {"White move", "Black move", "Turn Time"};
     this->setHorizontalHeaderLabels(headerLabels);
 }
 
-void QHistory::setHistoryPolicy()
+void QChessHistory::setChessHistoryPolicy()
 {
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -23,7 +23,7 @@ void QHistory::setHistoryPolicy()
     this->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 }
 
-void QHistory::setHistorySize()
+void QChessHistory::setChessHistorySize()
 {
     this->setColumnCount(this->nbColumns);
     this->setRowCount(this->nbRows);

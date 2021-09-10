@@ -1,18 +1,12 @@
 #include "qchesstimer.h"
 
-QChessTimer::QChessTimer() : QLCDNumber()
+QChessTimer::QChessTimer(QWidget *parent) : QLCDNumber(parent)
 {
-    setChessTimerSize();
+    this->setFixedSize(100, 50);
 
     QTimer *refreshTimer = new QTimer();
     connect(refreshTimer, &QTimer::timeout, this, &QChessTimer::showTime);
     refreshTimer->start(refreshTime*1000);
-}
-
-
-void QChessTimer::setChessTimerSize()
-{
-    this->setFixedSize(100, 50);
 }
 
 void QChessTimer::showTime()

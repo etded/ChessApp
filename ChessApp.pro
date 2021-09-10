@@ -11,8 +11,10 @@ CONFIG -= app_bundle
 SOURCES += \
         main.cpp \
         qchessboard.cpp \
+        qchesscontrol.cpp \
+        qchesshistory.cpp \
+        qchessmenu.cpp \
         qchesstimer.cpp \
-        qhistory.cpp \
         window.cpp
 
 # Default rules for deployment.
@@ -22,6 +24,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     qchessboard.h \
+    qchesscontrol.h \
+    qchesshistory.h \
+    qchessmenu.h \
     qchesstimer.h \
-    qhistory.h \
     window.h

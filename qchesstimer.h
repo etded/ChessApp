@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtWidgets>
+#include <QtCore>
 
 #include <iostream>
 
@@ -11,11 +12,10 @@ using namespace std;
 class QChessTimer : public QLCDNumber
 {
     public:
-        QChessTimer();
-        void setChessTimerSize();
+        QChessTimer(QWidget *parent = nullptr);
 
     private:
-        QTime time = QTime(0, 1, 10);
+        QTime time = QTime(0, 10, 0);
         int refreshTime = 1;
 
     private slots:

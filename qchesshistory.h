@@ -1,5 +1,5 @@
-#ifndef QHISTORY_H
-#define QHISTORY_H
+#ifndef QCHESSHISTORY_H
+#define QCHESSHISTORY_H
 
 #include <QWidget>
 #include <QtWidgets>
@@ -8,14 +8,14 @@
 
 using namespace std;
 
-class QHistory : public QTableWidget
+class QChessHistory : public QTableWidget
 {
     Q_OBJECT
 
     public:
-        QHistory();
-        void setHistoryPolicy();
-        void setHistorySize();
+        QChessHistory(QWidget *parent = nullptr);
+        void setChessHistoryPolicy();
+        void setChessHistorySize();
 
     private:
         QStringList headerLabels;
@@ -25,4 +25,4 @@ class QHistory : public QTableWidget
         int columnWidth = 75;
 };
 
-#endif // QHISTORY_H
+#endif // QCHESSHISTORY_H

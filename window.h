@@ -1,32 +1,42 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+
 #include <QWidget>
 #include <QtWidgets>
-#include "qhistory.h"
+#include "qchesshistory.h"
 #include "qchessboard.h"
 #include "qchesstimer.h"
+#include "qchessmenu.h"
+#include "qchesscontrol.h"
+
+using namespace std;
 
 
-class Window : public QWidget
+class Window : public QMainWindow
 {
     Q_OBJECT
+
     public:
         Window();
 
     protected:
 
+    public slots:
+        void setChessBoardColor();
+
     private:
-        QHistory *history;
+        QChessHistory *chessHistory;
         QChessBoard *chessBoard;
-        QChessTimer *chessTimer;
+        QChessTimer *chessTopTimer;
+        QChessTimer *chessBottomTimer;
         QWidget *leftPanel;
         QWidget *rightPanel;
         QTimer *LCDNumber;
+        QChessMenu *chessMenu;
+        QWidget *centralWidget;
+        QChessControl *chessControl;
 
-    public slots:
-
-    signals:
 
 };
 
