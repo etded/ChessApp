@@ -52,3 +52,24 @@ void Window::setChessBoardColor()
 {
     chessBoard->openColorDialog();
 }
+
+void Window::startGame()
+{
+    QColor playerColor = chessBoard->getPlayerColor();
+    if (gameStarted == false)
+    {
+        if (playerColor == Qt::white)
+        {
+            chessBottomTimer->startTimer();
+        }
+        else if (playerColor == Qt::black)
+        {
+            chessTopTimer->startTimer();
+        }
+        gameStarted = true;
+    }
+    chessBoard->playChessGame();
+    return;
+}
+
+

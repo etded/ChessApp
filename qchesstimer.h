@@ -13,13 +13,18 @@ class QChessTimer : public QLCDNumber
 {
     public:
         QChessTimer(QWidget *parent = nullptr);
+        void startTimer();
+        void pauseTimer();
+        void unpauseTimer();
 
     private:
         QTime time = QTime(0, 10, 0);
+        QTimer *refreshTimer;
         int refreshTime = 1;
 
     private slots:
-        void showTime();
+        void updateTime();
+
 };
 
 #endif // QCHESSTIMER_H

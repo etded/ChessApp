@@ -12,6 +12,8 @@ QChessControl::QChessControl(QWidget *parent) : QGroupBox(parent)
         startButton = new QPushButton("Start");
         resetButton = new QPushButton("Reset");
 
+        QObject::connect(startButton, SIGNAL(clicked()), parent, SLOT(startGame()));
+
     modeOneHBoxLayout->addWidget(startButton);
     modeOneHBoxLayout->addWidget(resetButton);
 

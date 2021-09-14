@@ -22,7 +22,19 @@ class QChessBoard : public QTableWidget
         void setChessBoardSize();
         void setChessBoardNotation();
         void setChessBoardPieces();
+        void setPlayerColor(QColor);
+        void playChessGame();
+        void setChessBoardItemSelectionColor(QColor);
+        QColor getPlayerColor();
+        QColor getPieceColor(QTableWidgetItem*);
 
+    public slots:
+        void movePiece(QTableWidgetItem*);
+        void movePieceTo();
+        void assignNextTurnColor();
+
+    signals:
+        void movePieceSignal();
 
     private:
         int nbRows;
@@ -30,7 +42,11 @@ class QChessBoard : public QTableWidget
         int rowHeight;
         int columnWidth;
         QColor coloredColor;
-        QColor playerColor = Qt::white;
+        QColor playerColor;
+        QColor turnColor;
+        QTableWidgetItem *pieceToMove;
+        QTableWidgetItem *location;
+        int clickCounter;
 };
 
 #endif // QCHESSBOARD_H

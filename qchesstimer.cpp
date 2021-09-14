@@ -4,12 +4,14 @@ QChessTimer::QChessTimer(QWidget *parent) : QLCDNumber(parent)
 {
     this->setFixedSize(100, 50);
 
-    QTimer *refreshTimer = new QTimer();
-    connect(refreshTimer, &QTimer::timeout, this, &QChessTimer::showTime);
-    refreshTimer->start(refreshTime*1000);
+    refreshTimer = new QTimer();
+    connect(refreshTimer, &QTimer::timeout, this, &QChessTimer::updateTime);
+
+    QString text = time.toString("mm:ss");
+    display(text);
 }
 
-void QChessTimer::showTime()
+void QChessTimer::updateTime()
 {
     if (time.minute() == 0 && time.second() == 0)
     {
@@ -28,4 +30,19 @@ void QChessTimer::showTime()
     }
     QString text = time.toString("mm:ss");
     display(text);
+}
+
+void QChessTimer::startTimer()
+{
+    refreshTimer->start(refreshTime*1000);
+}
+
+void QChessTimer::pauseTimer()
+{
+    refreshTimer->stop();
+}
+
+void QChessTimer::unpauseTimer()
+{
+    refreshTimer->start(refreshTime*1000);
 }

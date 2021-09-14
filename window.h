@@ -24,6 +24,7 @@ class Window : public QMainWindow
 
     public slots:
         void setChessBoardColor();
+        void startGame();
 
     private:
         QChessHistory *chessHistory;
@@ -36,8 +37,7 @@ class Window : public QMainWindow
         QChessMenu *chessMenu;
         QWidget *centralWidget;
         QChessControl *chessControl;
-
-
+        bool gameStarted = false;
 };
 
 #endif // WINDOW_H

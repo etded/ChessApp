@@ -10,6 +10,9 @@ QChessBoard::QChessBoard(QWidget *parent) : QTableWidget(parent)
     columnWidth = 50;
     rowHeight = 50;
     coloredColor = Qt::black;
+    playerColor = Qt::white;
+    turnColor = Qt::white;
+    clickCounter = 0;
 
     setChessBoardSize();
 
@@ -18,6 +21,8 @@ QChessBoard::QChessBoard(QWidget *parent) : QTableWidget(parent)
     setChessBoardPolicy();
 
     setChessBoardColor(coloredColor);
+
+    setChessBoardItemSelectionColor(coloredColor);
 
     setChessBoardNotation();
 
@@ -32,6 +37,7 @@ void QChessBoard::initializeBoardCells()
         for (j = 0; j < this->nbColumns; j++)
         {
             this->setItem(i, j, new QTableWidgetItem);
+            this->item(i, j)->setText("");
         }
     }
 }
@@ -63,7 +69,9 @@ void QChessBoard::openColorDialog()
 {
     QColor color;
     color = QColorDialog::getColor(Qt::black, this);
+    this->coloredColor = color;
     this->setChessBoardColor(color);
+    this->setChessBoardItemSelectionColor(color);
 }
 
 void QChessBoard::setChessBoardPolicy()
@@ -181,4 +189,94 @@ void QChessBoard::setChessBoardPieces()
         this->item(2, 7)->setText(whitePawn); this->item(7, 2)->setText(blackPawn);
         this->item(2, 8)->setText(whitePawn); this->item(7, 1)->setText(blackPawn);
     }
+}
+
+void QChessBoard::setPlayerColor(QColor color)
+{
+    playerColor = color;
+}
+
+QColor QChessBoard::getPlayerColor()
+{
+    return(playerColor);
+}
+
+void QChessBoard::setChessBoardItemSelectionColor(QColor color)
+{
+    int itemSelectionColorRed = color.red();
+    int itemSelectionColorGreen = color.green();
+    int itemSelectionColorBlue = color.blue();
+    QString styleSheet = "QTableView::item:selected { border: 1px solid black; background: rgba(";
+    styleSheet = styleSheet.append(QString::number(itemSelectionColorRed));
+    styleSheet = styleSheet.append(", ");
+    styleSheet = styleSheet.append(QString::number(itemSelectionColorGreen));
+    styleSheet = styleSheet.append(", ");
+    styleSheet = styleSheet.append(QString::number(itemSelectionColorBlue));
+    styleSheet = styleSheet.append(", 25%) }");
+    this->setStyleSheet(styleSheet);
+}
+
+void QChessBoard::playChessGame()
+{
+    this->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    QObject::connect(this, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(movePiece(QTableWidgetItem*)));
+    QObject::connect(this, SIGNAL(movePieceSignal()), this, SLOT(movePieceTo()));
+    QObject::connect(this, SIGNAL(movePieceSignal()), this, SLOT(assignNextTurnColor()));
+}
+
+void QChessBoard::movePiece(QTableWidgetItem* piece)
+{
+    QColor pieceColor = getPieceColor(piece);
+    if ((clickCounter == 0) && (piece->text() != "") && (pieceColor == turnColor))
+    {
+        pieceToMove = piece;
+        clickCounter = 1;
+    }
+    else if (clickCounter == 1)
+    {
+        location = piece;
+        clickCounter = 0;
+        if (pieceToMove != location)
+        {
+            emit movePieceSignal();
+        }
+        else
+        {
+            clickCounter = 1;
+        }
+    }
+}
+
+void QChessBoard::movePieceTo()
+{
+    location->setText(pieceToMove->text());
+    pieceToMove->setText("");
+}
+
+void QChessBoard::assignNextTurnColor()
+{
+    if (turnColor == Qt::white)
+    {
+        turnColor = Qt::black;
+    }
+    else if (turnColor == Qt::black)
+    {
+        turnColor = Qt::white;
+    }
+}
+
+
+QColor QChessBoard::getPieceColor(QTableWidgetItem* piece)
+{
+    if ((piece->text() == "♟") || (piece->text() == "♞") || (piece->text() == "♝") || (piece->text() == "♜") || (piece->text() == "♛") || (piece->text() == "♚"))
+    {
+        return(Qt::black);
+    }
+    else if ((piece->text() == "♙") || (piece->text() == "♘") || (piece->text() == "♗") || (piece->text() == "♖") || (piece->text() == "♕") || (piece->text() == "♔"))
+    {
+        return(Qt::white);
+    }
+    else
+        return(Qt::gray);
 }
