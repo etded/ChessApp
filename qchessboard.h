@@ -6,6 +6,7 @@
 #include <QtCore>
 
 #include <iostream>
+#include "qvector_functions.h"
 
 using namespace std;
 
@@ -25,6 +26,8 @@ class QChessBoard : public QTableWidget
         void setPlayerColor(QColor);
         void playChessGame();
         void setChessBoardItemSelectionColor(QColor);
+        QVector<QVector<int>> computePossibleMoves(QTableWidgetItem*);
+        QVector<QVector<int>> test();
         QColor getPlayerColor();
         QColor getPieceColor(QTableWidgetItem*);
 
@@ -32,9 +35,11 @@ class QChessBoard : public QTableWidget
         void movePiece(QTableWidgetItem*);
         void movePieceTo();
         void assignNextTurnColor();
+        void showPossibleMoves(QTableWidgetItem*);
 
     signals:
         void movePieceSignal();
+        void showPossibleMovesSignal();
 
     private:
         int nbRows;

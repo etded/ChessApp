@@ -15,6 +15,7 @@ SOURCES += \
         qchesshistory.cpp \
         qchessmenu.cpp \
         qchesstimer.cpp \
+        qvector_functions.cpp \
         window.cpp
 
 # Default rules for deployment.
@@ -28,4 +29,5 @@ HEADERS += \
     qchesshistory.h \
     qchessmenu.h \
     qchesstimer.h \
+    qvector_functions.h \
     window.h

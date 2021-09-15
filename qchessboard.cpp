@@ -27,6 +27,7 @@ QChessBoard::QChessBoard(QWidget *parent) : QTableWidget(parent)
     setChessBoardNotation();
 
     setChessBoardPieces();
+
 }
 
 void QChessBoard::initializeBoardCells()
@@ -223,6 +224,7 @@ void QChessBoard::playChessGame()
     QObject::connect(this, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(movePiece(QTableWidgetItem*)));
     QObject::connect(this, SIGNAL(movePieceSignal()), this, SLOT(movePieceTo()));
     QObject::connect(this, SIGNAL(movePieceSignal()), this, SLOT(assignNextTurnColor()));
+    QObject::connect(this, SIGNAL(showPossibleMovesSignal()), this, SLOT(showPossibleMoves()));
 }
 
 void QChessBoard::movePiece(QTableWidgetItem* piece)
@@ -279,4 +281,57 @@ QColor QChessBoard::getPieceColor(QTableWidgetItem* piece)
     }
     else
         return(Qt::gray);
+}
+
+void QChessBoard::showPossibleMoves(QTableWidgetItem* piece)
+{
+
+}
+
+QVector<QVector<int>> QChessBoard::computePossibleMoves(QTableWidgetItem* piece)
+{
+    QVector<QVector<int>> possibleMoves;
+    if (playerColor == Qt::white)
+    {
+        if ((piece->text() == "♟") || (piece->text() == "♙"))
+        {
+            if (piece->text() == "♟")
+            {
+                if (this->item(piece->row() + 1, piece->column())->text() == "")
+                {
+                    if ((piece->row() == 2) && (this->item(piece->row() + 2, piece->column())->text() == ""))
+                    {
+                        possibleMoves.push_back({piece->row() + 2, piece->column()});
+                    }
+                    possibleMoves.push_back({piece->row() + 1, piece->column()});
+                }
+                if (this->item(piece->row() + 1, piece->column() + 1)->text() == "♙")
+                {
+                    possibleMoves.push_back({piece->row() + 1, piece->column() + 1});
+                }
+                if (this->item(piece->row() + 1, piece->column() - 1)->text() == "♙")
+                {
+                    possibleMoves.push_back({piece->row() + 1, piece->column() - 1});
+                }
+            }
+            else if (piece->text() == "♙")
+            {
+
+            }
+        }
+    }
+    else if (playerColor == Qt::black)
+    {
+
+    }
+    return(possibleMoves);
+}
+
+QVector<QVector<int>> QChessBoard::test()
+{
+    QVector<QVector<int>> testArray;
+    testArray.push_back({0, 0});
+    testArray.push_back({0, 0});
+    testArray.push_back({0, 0});
+    return(testArray);
 }
