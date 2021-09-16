@@ -26,7 +26,8 @@ class QChessBoard : public QTableWidget
         void setPlayerColor(QColor);
         void playChessGame();
         void setChessBoardItemSelectionColor(QColor);
-        QVector<QVector<int>> computePossibleMoves(QTableWidgetItem*);
+        void computePossibleMoves(QTableWidgetItem*);
+        void resetMovesCellColor();
         QVector<QVector<int>> test();
         QColor getPlayerColor();
         QColor getPieceColor(QTableWidgetItem*);
@@ -39,7 +40,7 @@ class QChessBoard : public QTableWidget
 
     signals:
         void movePieceSignal();
-        void showPossibleMovesSignal();
+        void showPossibleMovesSignal(QTableWidgetItem*);
 
     private:
         int nbRows;
@@ -49,6 +50,7 @@ class QChessBoard : public QTableWidget
         QColor coloredColor;
         QColor playerColor;
         QColor turnColor;
+        QVector<QVector<int>> possibleMoves;
         QTableWidgetItem *pieceToMove;
         QTableWidgetItem *location;
         int clickCounter;

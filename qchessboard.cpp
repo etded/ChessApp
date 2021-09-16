@@ -207,7 +207,7 @@ void QChessBoard::setChessBoardItemSelectionColor(QColor color)
     int itemSelectionColorRed = color.red();
     int itemSelectionColorGreen = color.green();
     int itemSelectionColorBlue = color.blue();
-    QString styleSheet = "QTableView::item:selected { border: 1px solid black; background: rgba(";
+    QString styleSheet = "QTableView::item:selected { border: 2px solid black; background: rgba(";
     styleSheet = styleSheet.append(QString::number(itemSelectionColorRed));
     styleSheet = styleSheet.append(", ");
     styleSheet = styleSheet.append(QString::number(itemSelectionColorGreen));
@@ -224,7 +224,7 @@ void QChessBoard::playChessGame()
     QObject::connect(this, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(movePiece(QTableWidgetItem*)));
     QObject::connect(this, SIGNAL(movePieceSignal()), this, SLOT(movePieceTo()));
     QObject::connect(this, SIGNAL(movePieceSignal()), this, SLOT(assignNextTurnColor()));
-    QObject::connect(this, SIGNAL(showPossibleMovesSignal()), this, SLOT(showPossibleMoves()));
+    QObject::connect(this, SIGNAL(showPossibleMovesSignal(QTableWidgetItem*)), this, SLOT(showPossibleMoves(QTableWidgetItem*)));
 }
 
 void QChessBoard::movePiece(QTableWidgetItem* piece)
@@ -234,18 +234,21 @@ void QChessBoard::movePiece(QTableWidgetItem* piece)
     {
         pieceToMove = piece;
         clickCounter = 1;
+        emit showPossibleMovesSignal(pieceToMove);
     }
     else if (clickCounter == 1)
     {
         location = piece;
-        clickCounter = 0;
-        if (pieceToMove != location)
+        computePossibleMoves(pieceToMove);
+        if ((pieceToMove != location) && (possibleMoves.indexOf({location->row(), location->column()}) != -1))
         {
+            clickCounter = 0;
             emit movePieceSignal();
+            resetMovesCellColor();
         }
         else
         {
-            clickCounter = 1;
+
         }
     }
 }
@@ -285,12 +288,17 @@ QColor QChessBoard::getPieceColor(QTableWidgetItem* piece)
 
 void QChessBoard::showPossibleMoves(QTableWidgetItem* piece)
 {
-
+    computePossibleMoves(piece);
+    int i;
+    for (i = 0; i < possibleMoves.size(); i++)
+    {
+        this->item(possibleMoves[i][0], possibleMoves[i][1])->setBackground(QColor(coloredColor.red(), coloredColor.green(), coloredColor.blue(), 64));
+    }
 }
 
-QVector<QVector<int>> QChessBoard::computePossibleMoves(QTableWidgetItem* piece)
+void QChessBoard::computePossibleMoves(QTableWidgetItem* piece)
 {
-    QVector<QVector<int>> possibleMoves;
+    possibleMoves.clear();
     if (playerColor == Qt::white)
     {
         if ((piece->text() == "♟") || (piece->text() == "♙"))
@@ -316,7 +324,22 @@ QVector<QVector<int>> QChessBoard::computePossibleMoves(QTableWidgetItem* piece)
             }
             else if (piece->text() == "♙")
             {
-
+                if (this->item(piece->row() - 1, piece->column())->text() == "")
+                {
+                    if ((piece->row() == 7) && (this->item(piece->row() - 2, piece->column())->text() == ""))
+                    {
+                        possibleMoves.push_back({piece->row() - 2, piece->column()});
+                    }
+                    possibleMoves.push_back({piece->row() - 1, piece->column()});
+                }
+                if (this->item(piece->row() - 1, piece->column() + 1)->text() == "♟")
+                {
+                    possibleMoves.push_back({piece->row() - 1, piece->column() + 1});
+                }
+                if (this->item(piece->row() - 1, piece->column() - 1)->text() == "♟")
+                {
+                    possibleMoves.push_back({piece->row() - 1, piece->column() - 1});
+                }
             }
         }
     }
@@ -324,14 +347,30 @@ QVector<QVector<int>> QChessBoard::computePossibleMoves(QTableWidgetItem* piece)
     {
 
     }
-    return(possibleMoves);
 }
 
 QVector<QVector<int>> QChessBoard::test()
 {
     QVector<QVector<int>> testArray;
     testArray.push_back({0, 0});
-    testArray.push_back({0, 0});
-    testArray.push_back({0, 0});
+    testArray.push_back({1, 1});
+    testArray.push_back({2, 2});
     return(testArray);
+}
+
+void QChessBoard::resetMovesCellColor()
+{
+    int i;
+    for (i = 0; i < possibleMoves.size(); i++)
+    {
+        location = this->item(possibleMoves[i][0], possibleMoves[i][1]);
+        if ((location->row() + location->column()) % 2 == 1)
+        {
+            this->item(location->row(), location->column())->setBackground(QColor(coloredColor.red(), coloredColor.green(), coloredColor.blue(), 127));
+        }
+        else if ((location->row() + location->column()) % 2 == 0)
+        {
+            this->item(location->row(), location->column())->setBackground(Qt::white);
+        }
+    }
 }
